@@ -41,25 +41,25 @@ public class EmployeeController {
 	}
 	
 	@GetMapping("/employees/{id}")
-	public String getEmployee(@PathVariable Long id) {
-		return "Fetching data of employee whose id is "+id;
+	public Employee getEmployee(@PathVariable Long id) {
+		return eService.getSingleEmployee(id);
 	}
 	
 	@DeleteMapping("/employees")
 	public String deleteEmployee(@RequestParam("id") Long pk) {
-		return "Employee having id "+pk+" will deleted";
+		return eService.deleteEmployee(pk);
 	}
 	
 	@PostMapping("/employees")
 	public Employee saveEmployee(@RequestBody Employee employee) {
 		return eService.saveEmployee(employee);
-		
 	}
 	
 	@PutMapping("/employees/{id}")
 	public Employee updateEmployee(@PathVariable Long id,@RequestBody Employee employee) {
 		System.out.println("employee id "+id);
-		return employee;
+		employee.setId(id);
+		return eService.updateEmployee(employee);
 	}
 
 }
