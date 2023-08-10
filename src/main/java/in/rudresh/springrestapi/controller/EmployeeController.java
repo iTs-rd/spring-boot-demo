@@ -83,9 +83,15 @@ public class EmployeeController {
 		return new ResponseEntity<List<Employee>>(eService.getEmployeesByNameContaining(keyword),HttpStatus.ACCEPTED);
 	}
 	
-	@GetMapping("employees/filterByNameOrLocation")
+	@GetMapping("/employees/filterByNameOrLocation")
 	public ResponseEntity<List<Employee>> filterByNameOrLocation(@RequestParam String name,@RequestParam String location) {
 		return new ResponseEntity<List<Employee>>(eService.getEmployeesWithNameOrLocation(name, location),HttpStatus.ACCEPTED);
+	}
+	
+	
+	@DeleteMapping("/employee/delete/{name}")
+	public ResponseEntity<Integer> deleteEmployeesByName(@PathVariable String name) {
+		return new ResponseEntity<Integer>(eService.deleteEmployeesByName(name),HttpStatus.ACCEPTED);
 	}
 	
 	

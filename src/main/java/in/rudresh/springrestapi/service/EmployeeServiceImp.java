@@ -83,6 +83,12 @@ public class EmployeeServiceImp implements EmployeeService {
 	}
 
 
+	@Override
+	public Integer deleteEmployeesByName(String name) {
+		return eRepository.deleteEmployeesByName(name);
+	}
+
+
 }
 
 
