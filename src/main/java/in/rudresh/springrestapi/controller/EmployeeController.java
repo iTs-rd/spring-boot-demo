@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import in.rudresh.springrestapi.model.Employee;
 import in.rudresh.springrestapi.service.EmployeeService;
+import jakarta.validation.Valid;
 
 
 @RestController
@@ -51,7 +52,7 @@ public class EmployeeController {
 	}
 	
 	@PostMapping("/employees")
-	public Employee saveEmployee(@RequestBody Employee employee) {
+	public Employee saveEmployee(@Valid @RequestBody Employee employee) {
 		return eService.saveEmployee(employee);
 	}
 	
