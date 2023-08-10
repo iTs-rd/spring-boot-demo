@@ -1,15 +1,21 @@
 package in.rudresh.springrestapi.model;
 
-import in.rudresh.springrestapi.request.EmployeeRequest;
+import java.util.Date;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -17,9 +23,8 @@ import lombok.ToString;
 @Getter
 @ToString
 @Entity
-@Table(name = "employee")
-@NoArgsConstructor
-public class Employee {
+@Table(name = "department")
+public class Department {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,24 +32,4 @@ public class Employee {
 
 	private String name;
 	
-	
-	@JoinColumn(name = "department_id")
-	@OneToOne
-	private Department department;
-
-	public Employee(EmployeeRequest req) {
-		this.name=req.getName();
-	}
-	
 }
-
-
-
-
-
-
-
-
-
-
-

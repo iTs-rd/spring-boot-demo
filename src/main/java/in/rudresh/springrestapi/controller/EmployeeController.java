@@ -16,7 +16,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import in.rudresh.springrestapi.model.Department;
 import in.rudresh.springrestapi.model.Employee;
+import in.rudresh.springrestapi.repository.DepartmentRepository;
+import in.rudresh.springrestapi.repository.EmployeeRepository;
+import in.rudresh.springrestapi.request.EmployeeRequest;
 import in.rudresh.springrestapi.service.EmployeeService;
 import jakarta.validation.Valid;
 
@@ -26,6 +30,7 @@ public class EmployeeController {
 
 	@Autowired
 	private EmployeeService eService;
+	
 	
 	
 	@Value("${app.name: Employee Tracker}")
@@ -38,6 +43,16 @@ public class EmployeeController {
 	public String getAppDetails() {
 		return appName+" - v"+appVersion;
 	}
+	
+	@Autowired
+	private DepartmentRepository dRepo;
+	
+	@Autowired
+	private EmployeeRepository eRepo;
+	
+	
+	
+	
 	
 	@GetMapping("/employees")
 	public ResponseEntity<List<Employee>> getEmployees(@RequestParam Integer pageNumber,@RequestParam Integer pageSize) {
@@ -56,8 +71,17 @@ public class EmployeeController {
 	}
 	
 	@PostMapping("/employees")
-	public ResponseEntity<Employee> saveEmployee(@Valid @RequestBody Employee employee) {
-		return new ResponseEntity<Employee>(eService.saveEmployee(employee),HttpStatus.CREATED);
+	public ResponseEntity<Employee> saveEmployee(@Valid @RequestBody EmployeeRequest eRequest) {
+		Department dept=new Department();
+		dept.setName(eRequest.getDepartment());
+		
+		dRepo.save(dept);
+		Employee employee=new Employee(eRequest);
+		employee.setDepartment(dept);
+		
+		eRepo.save(employee);
+		return new ResponseEntity<Employee>(employee,HttpStatus.ACCEPTED);
+		
 	}
 	
 	@PutMapping("/employees/{id}")
@@ -94,6 +118,14 @@ public class EmployeeController {
 		return new ResponseEntity<Integer>(eService.deleteEmployeesByName(name),HttpStatus.ACCEPTED);
 	}
 	
+	
+	
+	
+	@GetMapping("/employee2")
+	public ResponseEntity<List<Employee>> getEmployeeByDepartment(@RequestParam String name){
+//		return new ResponseEntity<List<Employee>>(eRepo.findByDepartmentName(name),HttpStatus.OK);
+		return new ResponseEntity<List<Employee>>(eRepo.findByDeptName(name),HttpStatus.OK);
+	}
 	
 }
 
