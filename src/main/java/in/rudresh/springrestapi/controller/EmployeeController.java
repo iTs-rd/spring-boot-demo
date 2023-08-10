@@ -71,16 +71,18 @@ public class EmployeeController {
 	}
 	
 	@PostMapping("/employees")
-	public ResponseEntity<Employee> saveEmployee(@Valid @RequestBody EmployeeRequest eRequest) {
-		Department dept=new Department();
-		dept.setName(eRequest.getDepartment());
+	public ResponseEntity<String> saveEmployee(@Valid @RequestBody EmployeeRequest eRequest) {
+
+		Employee employee = new Employee(eRequest);
+		employee=eRepo.save(employee);
 		
-		dRepo.save(dept);
-		Employee employee=new Employee(eRequest);
-		employee.setDepartment(dept);
-		
-		eRepo.save(employee);
-		return new ResponseEntity<Employee>(employee,HttpStatus.ACCEPTED);
+		for (String s:eRequest.getDepartment()) {
+			Department d=new Department();
+			d.setName(s);
+			d.setEmployee(employee);
+			dRepo.save(d);
+		}
+		return new ResponseEntity<String>("Record saved",HttpStatus.OK);
 		
 	}
 	
@@ -127,6 +129,12 @@ public class EmployeeController {
 		return new ResponseEntity<List<Employee>>(eRepo.findByDeptName(name),HttpStatus.OK);
 	}
 	
+	
+	
+	@GetMapping("/emply")
+	public List<Employee> getEmployee2(){
+		return eRepo.getEmployee();
+	}
 }
 
 

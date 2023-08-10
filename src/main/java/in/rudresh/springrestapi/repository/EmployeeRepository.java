@@ -10,12 +10,16 @@ import org.springframework.stereotype.Repository;
 import in.rudresh.springrestapi.model.Employee;
 
 @Repository
-public interface EmployeeRepository extends PagingAndSortingRepository<Employee, Long> {
-	
-	List<Employee> findByDepartmentName(String name);
+public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 	
 	
-	@Query("FROM Employee WHERE department.name=:name")
-	List<Employee> findByDeptName(String name);
 	
+	@Query(value = "select * from employee",nativeQuery = true)
+	List<Employee> getEmployee();
+//	List<Employee> findByDepartmentName(String name);
+//	
+//	
+//	@Query("FROM Employee WHERE department.name=:name")
+//	List<Employee> findByDeptName(String name);
+//	
 }
