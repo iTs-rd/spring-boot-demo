@@ -7,4 +7,6 @@ import in.rudresh.springrestapi.model.Employee;
 public interface EmployeeService {
 
 	List<Employee> getEmployee();
+	
+	Employee saveEmployee(Employee employee);
 }

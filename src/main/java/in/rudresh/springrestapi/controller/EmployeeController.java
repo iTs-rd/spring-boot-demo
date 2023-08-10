@@ -51,8 +51,8 @@ public class EmployeeController {
 	}
 	
 	@PostMapping("/employees")
-	public String saveEmployee(@RequestBody Employee employee) {
-		return 	"saving the employee in DB " + employee;
+	public Employee saveEmployee(@RequestBody Employee employee) {
+		return eService.saveEmployee(employee);
 		
 	}
 	
